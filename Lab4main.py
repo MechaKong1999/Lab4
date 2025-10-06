@@ -1,6 +1,7 @@
 import requests
 import json
 from datetime import datetime
+from datetime import date
 from dotenv import load_dotenv
 import os
 
@@ -9,7 +10,7 @@ ROVER = "curiosity"
 API_URL = f"https://api.nasa.gov/mars-photos/api/v1/rovers/{ROVER}/photos"
 load_dotenv()
 
-Date = input("Enter the date (YYYY-MM-DD): ")
+Date = input("Enter a date in YYYY-MM-DD format: ")
 params = {
     "earth_date": Date
 }
@@ -25,7 +26,7 @@ def findphotos(Date):
     validatedate(Date)
     url=f"{API_URL}?earth_date={Date}&api_key={API_KEY}"
     params = {
-        "earth_date": Date, 
+        "earth_date": Date,      
         "api_key": API_KEY
     }
     r = requests.get(url, params=params)
@@ -40,9 +41,14 @@ def imagedownload(photos):
             handler.write(img_data)
         print(f"Downloaded {img_name}")
 
+def showphotos(photos):
+    for photo in photos:
+        print(f"ID: {photo.get('id')}, Camera: {photo.get('camera').get('full_name')}, URL: {photo.get('img_src')}")
+
 photos = findphotos(Date)
 if photos:
     imagedownload(photos)
+    showphotos(photos)
 else:
     print("No photos found for this date.")
 
