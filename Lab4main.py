@@ -5,6 +5,7 @@ from datetime import date
 from dotenv import load_dotenv
 import os
 
+#Some help provided by copilot
 API_KEY = os.getenv("API_KEY")
 ROVER = "curiosity"
 API_URL = f"https://api.nasa.gov/mars-photos/api/v1/rovers/{ROVER}/photos"
@@ -51,5 +52,6 @@ if photos:
     showphotos(photos)
 else:
     print("No photos found for this date.")
+
 
 
